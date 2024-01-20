@@ -19,17 +19,32 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
 
-            // 객체지향 스럽지 않다..
-            Order order = em.find(Order.class, 100L); // DB에서 order 정보를 찾고
-            Long memberId = order.getMemberId();  // 주문을 통해 memberId를 받아오고
-            Member findMember = em.find(Member.class, memberId); // 다시 memberId로 DB 조회..? 객체지향 스럽지 않다...
+            Member memberA = new Member();
+            memberA.setName("MemberA");
+            //member.setId(999L);
+            em.persist(memberA);
 
+            Member memberB = new Member();
+            memberB.setName("MemberB");
+            em.persist(memberB);
+
+            Order order = new Order();
+            order.setMember(memberA);
+            em.persist(order);
+
+            Order findOrder = em.find(Order.class, order.getId());
+            Member findMember = findOrder.getMember();
+            System.out.println("findMember = " + findMember.getName());
+            findOrder.setMember(memberB);
+
+            tx.commit();
         }catch (Exception e){
+            tx.rollback();
 
+        }finally {
+            em.close();
         }
-
-
+        emf.close();
     }
 }
