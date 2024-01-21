@@ -19,9 +19,6 @@ public class Order {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "id")
-    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
-
     public Member getMember() {
         return member;
     }

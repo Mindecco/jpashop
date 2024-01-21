@@ -18,6 +18,13 @@ public class OrderItem {
     @JoinColumn(name = "ITEM_ID")
     private Item item;
 
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
     private int orderPrice;
     private int count;
 
@@ -29,13 +36,6 @@ public class OrderItem {
         this.order = order;
     }
 
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
 
     public Long getId() {
         return id;

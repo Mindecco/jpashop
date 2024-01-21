@@ -36,25 +36,15 @@ public class JpaMain {
             em.persist(itemA);
 
             Order order = new Order();
-            em.persist(order);
-            order.changeMember(memberA);
+         //   order.changeMember(memberA);
             em.persist(order);
 
-           // em.flush();
 
             OrderItem orderItemA = new OrderItem();
-            orderItemA.setItem(itemA);
             orderItemA.setOrder(order);
+            orderItemA.setItem(itemA);
             em.persist(orderItemA);
 
-
-
-            Order findOrder = em.find(Order.class, order.getId());
-            Member findMember = findOrder.getMember();
-            System.out.println("findMember = " + findMember.getName());
-            Member member = em.find(Member.class, findMember.getId());
-            int size = member.getOrders().size();
-            System.out.println("size = " + size);
             tx.commit();
         }catch (Exception e){
             tx.rollback();
