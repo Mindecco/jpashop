@@ -25,6 +25,12 @@ public class Order {
         this.member = member;
     }
 
+    // 연관관계 편의 메소드 생성 ( 양방향으로 값을 동기화 시켜준다. )
+    public void changeMember(Member member){
+        this.member = member;
+        member.getOrders().add(this);
+    }
+
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
