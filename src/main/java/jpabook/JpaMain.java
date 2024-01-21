@@ -1,9 +1,6 @@
 package jpabook;
 
-import jpabook.jpashop.domain.Item;
-import jpabook.jpashop.domain.Member;
-import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderItem;
+import jpabook.jpashop.domain.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -22,28 +19,11 @@ public class JpaMain {
 
         try {
 
-            Member memberA = new Member();
-            memberA.setName("MemberA");
-            //member.setId(999L);
-            em.persist(memberA);
-
-            Member memberB = new Member();
-            memberB.setName("MemberB");
-            em.persist(memberB);
-
-            Item itemA = new Item();
-            itemA.setName("itemA");
-            em.persist(itemA);
-
-            Order order = new Order();
-         //   order.changeMember(memberA);
-            em.persist(order);
-
-
-            OrderItem orderItemA = new OrderItem();
-            orderItemA.setOrder(order);
-            orderItemA.setItem(itemA);
-            em.persist(orderItemA);
+            Movie movie = new Movie();
+            movie.setActor("민장식");
+            movie.setDirector("나은경");
+            movie.setName("신세계2");
+            em.persist(movie);
 
             tx.commit();
         }catch (Exception e){
