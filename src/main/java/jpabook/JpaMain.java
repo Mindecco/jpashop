@@ -1,7 +1,9 @@
 package jpabook;
 
+import jpabook.jpashop.domain.Item;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.domain.OrderItem;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -29,9 +31,23 @@ public class JpaMain {
             memberB.setName("MemberB");
             em.persist(memberB);
 
+            Item itemA = new Item();
+            itemA.setName("itemA");
+            em.persist(itemA);
+
             Order order = new Order();
+            em.persist(order);
             order.changeMember(memberA);
             em.persist(order);
+
+           // em.flush();
+
+            OrderItem orderItemA = new OrderItem();
+            orderItemA.setItem(itemA);
+            orderItemA.setOrder(order);
+            em.persist(orderItemA);
+
+
 
             Order findOrder = em.find(Order.class, order.getId());
             Member findMember = findOrder.getMember();
@@ -39,7 +55,6 @@ public class JpaMain {
             Member member = em.find(Member.class, findMember.getId());
             int size = member.getOrders().size();
             System.out.println("size = " + size);
-
             tx.commit();
         }catch (Exception e){
             tx.rollback();
