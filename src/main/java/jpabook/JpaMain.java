@@ -30,13 +30,8 @@ public class JpaMain {
             em.persist(memberB);
 
             Order order = new Order();
-            order.setMember(memberA);
+            order.changeMember(memberA);
             em.persist(order);
-
-            // Member Orders 에는 현재 add가 된 상태가 아니다. 즉, getOrders().size = 0 임.
-            // SQL 이 실행되어야 Orders에 set이 될텐데 em.persist만 한 상태라 영속성 컨택스트에 있는 값이 그대로 사용 되기 때문에 em.flush(), em.clear() 필요
-            em.flush();
-            em.clear();
 
             Order findOrder = em.find(Order.class, order.getId());
             Member findMember = findOrder.getMember();
