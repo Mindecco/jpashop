@@ -3,7 +3,9 @@ package jpabook.jpashop.domain;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Member {
@@ -19,27 +21,53 @@ public class Member {
     @Embedded
     private HomeAddress address;
 
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns =
+            @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
+//
+//    @ElementCollection
+//    @CollectionTable(name = "ADDRESS", joinColumns =
+//            @JoinColumn(name = "MEMBER_ID"))
+//    private List<HomeAddress> addressHistory = new ArrayList<>();
 
-    @Embedded
-    @AttributeOverrides(
-            {
-                    @AttributeOverride(name="city",column = @Column(name = "WORK_CITY")),
-                    @AttributeOverride(name="street",column = @Column(name = "WORK_STREET")),
-                    @AttributeOverride(name="zipcode",column = @Column(name = "WORK_ZIPCODE"))
-            }
-    )
-    private HomeAddress address2;
 
-    public HomeAddress getAddress2() {
-        return address2;
+    // cascade : 영속성 전파로, 부모의 생명주기와 동일하게 자식의 생명주기를 맞추는 것.( 즉. ALL 인 경우 부모 persist만으로 자식도 자동으로
+    // persist 할 수 있다.
+    // orphanRemoval : 자식 앤티티가 제거될 때, DB에서 자동으로 삭제해주는 설정.
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressEntity> addressHistory = new ArrayList<>();
+
+    public List<AddressEntity> getAddressHistory() {
+        return addressHistory;
     }
 
-    public void setAddress2(HomeAddress address2) {
-        this.address2 = address2;
+    public void setAddressHistory(List<AddressEntity> addressHistory) {
+        this.addressHistory = addressHistory;
     }
 
+    /*
+        @Embedded
+        @AttributeOverrides(
+                {
+                        @AttributeOverride(name="city",column = @Column(name = "WORK_CITY")),
+                        @AttributeOverride(name="street",column = @Column(name = "WORK_STREET")),
+                        @AttributeOverride(name="zipcode",column = @Column(name = "WORK_ZIPCODE"))
+                }
+        )
+    */
     public HomeAddress getAddress() {
         return address;
+    }
+
+    public Set<String> getFavoriteFoods() {
+        return favoriteFoods;
+    }
+
+    public void setFavoriteFoods(Set<String> favoriteFoods) {
+        this.favoriteFoods = favoriteFoods;
     }
 
     public void setAddress(HomeAddress address) {
