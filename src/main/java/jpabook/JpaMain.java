@@ -18,28 +18,15 @@ public class JpaMain {
         tx.begin();
 
         try {
+
             Member member = new Member();
-            member.setName("LAZY Test");
+
+            member.setAddress(new HomeAddress("city","street","zipcode"));
+
+            member.setAddress2(new HomeAddress("city2","street2","zipcode2"));
+            member.setName("embed Test");
+
             em.persist(member);
-
-            Order order = new Order();
-            order.setMember(member);
-            em.persist(order);
-
-            em.flush();
-            em.clear();
-
-            Order findOrder = em.find(Order.class, order.getId());
-
-            // 지연로딩 시, 프록시 객체
-            Member findMember = findOrder.getMember();
-
-            // 프록시 객체 초기화
-            System.out.println("findOrder = " + findMember);
-            System.out.println("findMember.getName() = " + findMember.getName());
-            System.out.println("findOrder = " + findMember.getClass());
-
-
 
             tx.commit();
         }catch (Exception e){

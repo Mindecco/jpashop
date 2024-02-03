@@ -14,9 +14,37 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long id;
     private String name;
-    private String city;
-    private String street;
-    private String zipcode;
+
+
+    @Embedded
+    private HomeAddress address;
+
+
+    @Embedded
+    @AttributeOverrides(
+            {
+                    @AttributeOverride(name="city",column = @Column(name = "WORK_CITY")),
+                    @AttributeOverride(name="street",column = @Column(name = "WORK_STREET")),
+                    @AttributeOverride(name="zipcode",column = @Column(name = "WORK_ZIPCODE"))
+            }
+    )
+    private HomeAddress address2;
+
+    public HomeAddress getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(HomeAddress address2) {
+        this.address2 = address2;
+    }
+
+    public HomeAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(HomeAddress address) {
+        this.address = address;
+    }
 
     @OneToMany(mappedBy = "member")
     List<Order> orders = new ArrayList<Order>();
@@ -45,27 +73,4 @@ public class Member {
         this.name = name;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
 }
